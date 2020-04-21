@@ -11,7 +11,11 @@ colors = {
     'text': '#7FDBFF'
 }
 
-app.layout = html.Div(style={'backgroundColor': colors['background']}, children=[
+style = {'backgroundColor': colors['background']}
+
+data = {'backgroundColor': colors['background']}
+
+app.layout = html.Div(style=style, children=[
     html.H1(
         children='Hello Dash',
         style={
@@ -28,10 +32,7 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
     dcc.Graph(
         id='example-graph-2',
         figure={
-            'data': [
-                {'x': [1, 2, 3], 'y': [4, 1, 2], 'type': 'bar', 'name': 'SF'},
-                {'x': [1, 2, 3], 'y': [2, 4, 5], 'type': 'bar', 'name': u'Montréal'},
-            ],
+            'data': data,
             'layout': {
                 'plot_bgcolor': colors['background'],
                 'paper_bgcolor': colors['background'],
@@ -44,4 +45,4 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
 ])
 
 if __name__ == '__main__':
-    app.run_server(debug=True,host="0.0.0.0")
+    app.run_server(debug=True, host="0.0.0.0")
