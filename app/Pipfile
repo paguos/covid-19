@@ -5,9 +5,11 @@ verify_ssl = true
 
 [dev-packages]
 flake8 = "*"
+pytest = "*"
 
 [packages]
 dash = "==1.11.0"
+requests = "*"
 
 [requires]
 python_version = "3.8"
