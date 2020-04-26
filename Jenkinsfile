@@ -1,15 +1,18 @@
 pipeline {
-    agent none
+    agent any
+
     stages {
         stage('Test') {
-            agent {
-                docker { image 'python:3.8.2' }
-            }
             steps {
-                dir("app") {
-                    sh 'pip install pipenv'
-                    sh 'pipenv install --system'
-                    sh 'pipenv run flake8'
+                sh "docker build . --target test  -t app:test"
+                sh "docker run app:test flake8"
+            }
+        }
+        stage('Deploy') {
+            steps {
+                withDockerRegistry( [credentialsId: "dockerhub", url: "https://index.docker.io/v1/"] ) {
+                    sh "docker build . --target app  -t paguos/covid-dash:${BRANCH_NAME}-${BUILD_NUMBER}"
+                    sh "docker push paguos/covid-dash:${BRANCH_NAME}-${BUILD_NUMBER}"
                 }
             }
         }

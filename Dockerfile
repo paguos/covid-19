@@ -1,10 +1,13 @@
-FROM python:3.8.2
+FROM python:3.8.2 AS base
 
 RUN pip install pipenv
 
 WORKDIR /app
 COPY app .
 
-RUN pipenv install --system
+FROM base as test
+RUN pipenv install --system --dev
 
+FROM base as app
+RUN pipenv install --system
 CMD ["python", "app.py"]
