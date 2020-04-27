@@ -1,6 +1,6 @@
 FROM python:3.8.2 AS base
 
-RUN pip install pipenv
+RUN pip install pipenv==2018.11.26
 
 WORKDIR /app
 COPY app .
