@@ -5,3 +5,4 @@ run:
 test:
 	docker build . --target test -t covid-dash:test
 	docker run covid-dash:test flake8
+	docker run covid-dash:test python -m pytest

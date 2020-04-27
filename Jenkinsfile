@@ -6,6 +6,7 @@ pipeline {
             steps {
                 sh "docker build . --target test  -t app:test"
                 sh "docker run app:test flake8"
+                sh "docker run app:test python -m pytest"
             }
         }
         stage('Deploy') {
