@@ -3,6 +3,7 @@ kind: Service
 metadata:
   name: covid-dash
 spec:
+  type: LoadBalancer
   selector:
     app: covid-dash
   ports:
