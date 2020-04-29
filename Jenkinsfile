@@ -1,6 +1,12 @@
 pipeline {
     agent any
 
+    environment {
+        IMAGE_NAME = "paguos/covid-dash"
+        SHORT_GIT_HASH = sh(script: "git rev-parse --short HEAD", returnStdout: true).trim()
+        VERSION = sh(script: "./scripts/semtag getcurrent", returnStdout: true).trim()
+    }
+
     stages {
         stage('Test') {
             steps {
@@ -9,11 +15,17 @@ pipeline {
                 sh "docker run app:test python -m pytest"
             }
         }
+        stage('Build') {
+            steps {
+                sh "docker build . --target app  -t ${IMAGE_NAME}:${SHORT_GIT_HASH}"
+            }
+        }
         stage('Deploy') {
+            when { tag "v*" }
             steps {
                 withDockerRegistry( [credentialsId: "dockerhub", url: "https://index.docker.io/v1/"] ) {
-                    sh "docker build . --target app  -t paguos/covid-dash:${BRANCH_NAME}-${BUILD_NUMBER}"
-                    sh "docker push paguos/covid-dash:${BRANCH_NAME}-${BUILD_NUMBER}"
+                    sh "docker tag ${IMAGE_NAME}:${SHORT_GIT_HASH} ${IMAGE_NAME}:${VERSION}"
+                    sh "docker push ${IMAGE_NAME}:${VERSION}"
                 }
             }
         }
