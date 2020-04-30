@@ -57,6 +57,7 @@ def update_output_div(input_value, slider):
         api.by_country("Germany", status=input_value),
         api.by_country("Italy", status=input_value),
         api.by_country("Spain", status=input_value),
+        api.by_country("Canada", status=input_value),
     ]
     return {
         "data": data,
