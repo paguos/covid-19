@@ -1,7 +1,7 @@
 ####################################################################################################
 # Covid Dash base image
 ####################################################################################################
-FROM python:3.8.2 AS covid-dash-base
+FROM python:3.8.2-slim-buster AS covid-dash-base
 
 RUN pip install pipenv==2018.11.26
 
@@ -12,8 +12,6 @@ COPY app/helpers ./helpers
 COPY app/app.py .
 COPY app/Pipfile .
 COPY app/Pipfile.lock .
-
-EXPOSE 8050
 
 ####################################################################################################
 # Covid Dash development image for test and debug
@@ -31,4 +29,5 @@ CMD ["python", "app.py"]
 FROM covid-dash-base as covid-dash-app
 RUN pipenv install --system
 
+# CMD ["gunicorn", "-w 3", "app:server"]
 CMD ["python", "app.py"]

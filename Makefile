@@ -1,3 +1,4 @@
+aws_region=us-west-2
 branch=$(shell git rev-parse --abbrev-ref HEAD)
 image=covid-dash
 docker_repository=paguos
@@ -20,3 +21,9 @@ cnf/create:
 
 cnf/update:
 	./scripts/update_stack.sh
+
+eks/config:
+	aws eks --region $(aws_region) update-kubeconfig --name covid-dash
+
+k8s/deploy:
+	kubectl apply -f kubernetes/

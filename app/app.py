@@ -1,4 +1,6 @@
 import dash
+import flask
+
 import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output
@@ -7,7 +9,8 @@ from datetime import date
 from api.covid import CovidAPI
 from helpers.dash import slider_time_range
 
-app = dash.Dash(__name__)
+server = flask.Flask(__name__)  # define flask app.server
+app = dash.Dash(__name__, server=server)
 slider_dates = slider_time_range(date(2020, 2, 6))
 
 

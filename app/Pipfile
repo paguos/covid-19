@@ -10,6 +10,8 @@ pytest = "*"
 [packages]
 dash = "==1.11.0"
 requests = "*"
+gunicorn = "*"
+flask = "*"
 
 [requires]
 python_version = "3.8"
