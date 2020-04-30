@@ -10,14 +10,12 @@ pipeline {
     stages {
         stage('Test') {
             steps {
-                sh "docker build . --target test  -t app:test"
-                sh "docker run app:test flake8"
-                sh "docker run app:test python -m pytest"
+                sh "make test"
             }
         }
         stage('Build') {
             steps {
-                sh "docker build . --target app  -t ${IMAGE_NAME}:${SHORT_GIT_HASH}"
+                sh "docker build . --target covid-dash-app  -t ${IMAGE_NAME}:${SHORT_GIT_HASH}"
             }
         }
         stage('Deploy') {
