@@ -8,7 +8,9 @@ from dash.dependencies import Input, Output
 from datetime import date
 
 from api.covid import CovidAPI
+from helpers.colors import colors
 from helpers.dash import slider_time_range
+from helpers.graph import covid_graph
 
 server = flask.Flask(__name__)  # define flask app.server
 app = dash.Dash(__name__, server=server)
@@ -16,11 +18,17 @@ slider_dates = slider_time_range(date(2020, 2, 6))
 
 
 app.layout = html.Div(
+    style={"backgroundColor": colors["background"]},
+    className="main",
     children=[
-        html.H1(children="Covid Dash", style={"textAlign": "center"},),
+        html.H1(
+            children="Covid Dash",
+            style={"textAlign": "center", "color": colors["title"]},
+        ),
         html.Div(
             children="A web application to navigate threw the covid-19 data.",
-            style={"textAlign": "center"},
+            style={"textAlign": "center", "color": colors["text"]},
+            className="container",
         ),
         dcc.Dropdown(
             id="dropdown",
@@ -30,9 +38,17 @@ app.layout = html.Div(
                 {"label": "Deaths", "value": "deaths"},
             ],
             value="confirmed",
-            style={"textAlign": "left"},
+            style={
+                "textAlign": "left",
+                "backgroundColor": colors["background"],
+            },
+            className="dropdown",
         ),
-        dcc.Graph(id="covid-graph",),
+        dcc.Graph(
+            id="covid-graph",
+            style={"backgroundColor": colors["background"]},
+            figure={"layout": covid_graph(colors)},
+        ),
         dcc.RangeSlider(
             id="date-slider",
             min=0,
@@ -63,7 +79,7 @@ def update_output_div(input_value, slider):
             api.by_country(country, status=input_value)
             for country in countries
         ],
-        "layout": {"xaxis": {"tickformat": "%Y-%m-%d"}},
+        "layout": covid_graph(colors),
     }
 
 
