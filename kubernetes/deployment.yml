@@ -5,7 +5,7 @@ metadata:
   labels:
     app: covid-dash
 spec:
-  replicas: 1
+  replicas: 3
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -20,8 +20,8 @@ spec:
         app: covid-dash
     spec:
       containers:
-        - name: ml-k8s
-          image: paguos/covid-dash:v0.0.1
+        - name: covid-dash
+          image: paguos/covid-dash:v0.1
           imagePullPolicy: Always
           ports:
             - containerPort: 8050
