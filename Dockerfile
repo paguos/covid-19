@@ -8,6 +8,7 @@ RUN pip install pipenv==2018.11.26
 WORKDIR /app
 
 COPY app/api ./api
+COPY app/configs ./configs
 COPY app/helpers ./helpers
 COPY app/app.py .
 COPY app/Pipfile .
@@ -26,8 +27,7 @@ CMD ["python", "app.py"]
 ####################################################################################################
 # Covid Dash deployable image
 ####################################################################################################
-FROM covid-dash-base as covid-dash-app
+FROM covid-dash-base as covid-dash-deployment
 RUN pipenv install --system
 
-# CMD ["gunicorn", "-w 3", "app:server"]
-CMD ["python", "app.py"]
+CMD ["gunicorn", "-w", "3", "-b", "0.0.0.0:8050", "app:server"]
