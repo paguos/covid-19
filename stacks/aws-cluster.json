@@ -1,1 +1,18 @@
-[]
+[
+  {
+    "ParameterKey": "ClusterName",
+    "ParameterValue": "covid-dash"
+  },
+  {
+    "ParameterKey": "ClusterRoleArn",
+    "ParameterValue": "arn:aws:iam::835818189829:role/EKSTest"
+  },
+  {
+    "ParameterKey": "ClusterSubnets",
+    "ParameterValue": "subnet-f7a4418f,subnet-55d92d08,subnet-48838403,subnet-acfc9087"
+  },
+  {
+    "ParameterKey": "ClusterNodeGroupRoleArn",
+    "ParameterValue": "arn:aws:iam::835818189829:role/TetsEks"
+  }
+]

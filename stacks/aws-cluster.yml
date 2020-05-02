@@ -1,30 +1,46 @@
+Description: >
+  K8S cluster for the cloud-dash application
+
+Parameters:
+  ClusterName:
+    Description: Name of the cluster
+    Type: String
+
+  KubernetesVersion:
+    Default: "1.15"
+    Description: K8S version for the cluster
+    Type: String
+
+  ClusterRoleArn:
+    Description: ARN Role to assign to the cluster
+    Type: String
+
+  ClusterSubnets:
+    Description: List of subnets where the cluster can spawn nodes
+    Type: CommaDelimitedList
+
+  ClusterNodeGroupRoleArn:
+    Description: ARN Role to assign to the node group
+    Type: String
+
 Resources:
   cluster:
     Type: "AWS::EKS::Cluster"
     Properties:
-      Name: covid-dash
-      Version: "1.15"
-      RoleArn: >-
-        arn:aws:iam::835818189829:role/EKSTest
+      Name: !Ref ClusterName
+      Version: !Ref KubernetesVersion
+      RoleArn: !Ref ClusterRoleArn
       ResourcesVpcConfig:
-        SubnetIds:
-          - subnet-f7a4418f
-          - subnet-55d92d08
-          - subnet-48838403
-          - subnet-acfc9087
+        SubnetIds: !Ref ClusterSubnets
 
   nodeGroup:
     Type: "AWS::EKS::Nodegroup"
     Properties:
       ClusterName: !Ref cluster
-      NodegroupName: covid-dash
-      NodeRole: "arn:aws:iam::835818189829:role/TetsEks"
+      NodegroupName: !Sub "${ClusterName}-node-group"
+      NodeRole: !Ref ClusterNodeGroupRoleArn
       ScalingConfig:
         MinSize: 1
         DesiredSize: 2
         MaxSize: 3
-      Subnets:
-        - subnet-f7a4418f
-        - subnet-55d92d08
-        - subnet-48838403
-        - subnet-acfc9087
+      Subnets: !Ref ClusterSubnets
