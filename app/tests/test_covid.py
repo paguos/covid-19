@@ -31,7 +31,16 @@ def mocked_get():
             "CountryCode": "TS",
             "Lat": "0.0",
             "Lon": "0.0",
-            "Cases": 2,
+            "Cases": 1,
+            "Status": "confirmed",
+            "Date": "2020-03-02T01:00:00Z",
+        },
+        {
+            "Country": "Test",
+            "CountryCode": "TS",
+            "Lat": "0.0",
+            "Lon": "0.0",
+            "Cases": 3,
             "Status": "confirmed",
             "Date": "2020-03-03T00:00:00Z",
         },
@@ -53,7 +62,7 @@ def test_by_country(mocked_get):
 
     expected = {
         "x": ["2020-03-01", "2020-03-02", "2020-03-03"],
-        "y": [0, 1, 2],
+        "y": [0, 2, 3],
         "type": "lines",
         "name": "test",
     }

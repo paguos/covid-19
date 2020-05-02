@@ -53,14 +53,15 @@ app.layout = html.Div(
 )
 def update_output_div(input_value, slider):
     api = CovidAPI(slider_dates[slider[0]], slider_dates[slider[1] - 1])
-    data = [
-        api.by_country("Germany", status=input_value),
-        api.by_country("Italy", status=input_value),
-        api.by_country("Spain", status=input_value),
-        api.by_country("Canada", status=input_value),
-    ]
+
+    with open("configs/countries.yml") as file:
+        countries = yaml.full_load(file)["countries"]
+
     return {
-        "data": data,
+        "data": [
+            api.by_country(country, status=input_value)
+            for country in countries
+        ],
         "layout": {"xaxis": {"tickformat": "%Y-%m-%d"}},
     }
 
