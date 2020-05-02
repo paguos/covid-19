@@ -23,20 +23,32 @@ class CovidAPI:
         )
 
         response_payload = response.json()
+        aggregated_data = _aggregate_data(response_payload)
+
         return {
             "x": [
-                _simplify_date(entry["Date"])
-                for entry in response_payload
-                if "0001-01-01" not in entry["Date"]
+                date for date in aggregated_data.keys()
+                if "0001-01-01" not in date
             ],
             "y": [
-                entry["Cases"]
-                for entry in response_payload
-                if "0001-01-01" not in entry["Date"]
+                cases
+                for date, cases in aggregated_data.items()
+                if "0001-01-01" not in date
             ],
             "type": chart_type,
             "name": country,
         }
+
+
+def _aggregate_data(response_payload):
+    aggregated_data = {}
+    for entry in response_payload:
+        date = _simplify_date(entry["Date"])
+        if date in aggregated_data:
+            aggregated_data[date] = aggregated_data[date] + entry["Cases"]
+        else:
+            aggregated_data[date] = entry["Cases"]
+    return aggregated_data
 
 
 def _format_date(date_str):
