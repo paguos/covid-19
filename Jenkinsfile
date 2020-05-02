@@ -8,16 +8,35 @@ pipeline {
     }
 
     stages {
-        stage('Test') {
-            steps {
-                sh "docker build . --target covid-dash-development  -t app:test-${SHORT_GIT_HASH}"
-                sh "docker run app:test-${SHORT_GIT_HASH} flake8"
-                sh "docker run app:test-${SHORT_GIT_HASH} python -m pytest"
+        stage("Lint Docker Image"){
+            steps{
+                sh "hadolint Dockerfile"
             }
+        }
+        stage ("Build Test Image"){
+            steps {
+                sh "docker build . --target covid-dash-development  -t covid-dash:development"
+            }
+        }
+        stage('Tests') {
+            parallel {
+                stage('Lint') {
+                    steps{
+                        sh "docker run covid-dash:development flake8"
+                    }
+                }
+
+                stage('Unit') {
+                    steps{
+                        sh "docker run covid-dash:development python -m pytest"
+                    }
+                }
+            }
+
         }
         stage('Build') {
             steps {
-                sh "docker build . --target covid-dash-app  -t ${IMAGE_NAME}:${SHORT_GIT_HASH}"
+                sh "docker build . --target covid-dash-deployment  -t ${IMAGE_NAME}:${SHORT_GIT_HASH}"
             }
         }
         stage('Deploy') {
