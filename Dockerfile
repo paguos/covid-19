@@ -8,6 +8,7 @@ RUN pip install pipenv==2018.11.26
 WORKDIR /app
 
 COPY app/api ./api
+COPY app/assets ./assets
 COPY app/configs ./configs
 COPY app/helpers ./helpers
 COPY app/app.py .
