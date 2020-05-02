@@ -1,0 +1,46 @@
+/* Dropdown
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+#dropdown .VirtualizedSelectFocusedOption {
+  background-color: #5603ad;
+  color: whitesmoke;
+}
+
+#dropdown .Select-value {
+  background-color: #8965e0;
+}
+
+#dropdown span {
+  color: whitesmoke;
+}
+
+/* RangeSlider
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+.rc-slider-track {
+  background-color: #8965e0;
+}
+
+.rc-slider-dot-active {
+  border-color: #8965e0;
+  border: solid 2px #8965e0;
+}
+
+.rc-slider-handle {
+  border-color: #8965e0;
+}
+
+.rc.slider-handle:hover {
+  border-color: #8965e0;
+}
+
+.rc.slider-handle-active:active {
+  border-color: #8965e0;
+}
+
+.rc-slider-mark-text-active {
+  color: whitesmoke;
+}
+
+.rc-slider-mark-text {
+  color: #adb5bd;
+}
