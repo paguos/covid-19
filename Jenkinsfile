@@ -41,10 +41,20 @@ pipeline {
         }
         stage('Deploy') {
             when { tag "v*" }
+            environment {
+                MAJOR = sh(script: "echo $VERSION | awk -F '.' '{print \$1}'", returnStdout: true).trim()
+                MINOR = sh(script: "echo $VERSION | awk -F '.' '{print \$2}'", returnStdout: true).trim()
+                PATCH = sh(script: "echo $VERSION | awk -F '.' '{print \$3}' | awk -F '-' '{print \$1}'", returnStdout: true).trim()
+            }
             steps {
                 withDockerRegistry( [credentialsId: "dockerhub", url: "https://index.docker.io/v1/"] ) {
-                    sh "docker tag ${IMAGE_NAME}:${SHORT_GIT_HASH} ${IMAGE_NAME}:${VERSION}"
-                    sh "docker push ${IMAGE_NAME}:${VERSION}"
+                    sh "docker tag ${IMAGE_NAME}:${SHORT_GIT_HASH} ${IMAGE_NAME}:${MAJOR}"
+                    sh "docker tag ${IMAGE_NAME}:${SHORT_GIT_HASH} ${IMAGE_NAME}:${MAJOR}.${MINOR}"
+                    sh "docker tag ${IMAGE_NAME}:${SHORT_GIT_HASH} ${IMAGE_NAME}:${MAJOR}.${MINOR}.${PATCH}"
+
+                    sh "docker push ${IMAGE_NAME}:${MAJOR}"
+                    sh "docker push ${IMAGE_NAME}:${MAJOR}.${MINOR}"
+                    sh "docker push ${IMAGE_NAME}:${MAJOR}.${MINOR}.${PATCH}"
                 }
             }
         }

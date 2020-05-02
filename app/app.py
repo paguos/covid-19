@@ -58,9 +58,11 @@ def update_output_div(input_value, slider):
     with open("configs/countries.yml") as file:
         countries = yaml.full_load(file)["countries"]
 
-
     return {
-        "data": [api.by_country(country, status=input_value) for country in countries],
+        "data": [
+            api.by_country(country, status=input_value)
+            for country in countries
+        ],
         "layout": {"xaxis": {"tickformat": "%Y-%m-%d"}},
     }
 
