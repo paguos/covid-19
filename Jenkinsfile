@@ -58,5 +58,14 @@ pipeline {
                 }
             }
         }
+        stage('K8S') {
+            when { tag "v*" }
+            steps {
+                withAWS(region:'us-west-2',credentials:'aws_jenkins') {
+                    sh "make eks/config "
+                    sh "make k8s/deploy"
+                }
+            }
+        }
     }
 }
