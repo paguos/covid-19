@@ -76,5 +76,5 @@ make eks/config
 3. Apply the kubernetes resources of the application:
 
 ```sh
-make k8s/apply
+make k8s/deploy
 ```
