@@ -22,7 +22,7 @@ app.layout = html.Div(
     className="main",
     children=[
         html.H1(
-            children="Covid Dash",
+            children="COVID Dash",
             style={"textAlign": "center", "color": colors["title"]},
         ),
         html.Div(
