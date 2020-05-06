@@ -1,4 +1,4 @@
-# Covid-Dash
+# COVID-Dash
 
 A web application based on [Dash](https://github.com/plotly/dash) to show insights of the global pandemic covid-19.
 Using on the data provided by the public API [covid19api.com](https://documenter.getpostman.com/view/10808728/SzS8rjbc?version=latest).
@@ -76,5 +76,5 @@ make eks/config
 3. Apply the kubernetes resources of the application:
 
 ```sh
-make k8s/apply
+make k8s/deploy
 ```
